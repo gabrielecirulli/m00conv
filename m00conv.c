@@ -1,46 +1,20 @@
 /*
- * Programma convertitore per file M00
+ *		m00conv - Convert M00 files to a format for old PLC machines
  *
- * Utilizzo:
- * convertitore [file input] [file output]
-
- File input
-	> Rendere compatibile
-	> Eliminare commenti
-
-	> ignorare righe con g diverso da 0,1,2,3
-
-	>
- File output
-	> prima riga %!*
-	> campi n, g, x, z, f, h
-	> larghezza campi sotto
-
-	> fino a 02 rimangono uguali
-
-	> Righe numerate senso crescente
-
-	> Numero dopo g preso in N
-	> Numero X * 100
-	> Numeo Z * 100
-
-	> Dove non compare G si copia la G precedente
-	> Vengono ignorati se non hanno una g e una x o una z
-
-	> Dove non ci sono nuove X o Z rimane quella sopra
-
-	> Se non c'è una nuova G si ricopia la G precedente
-
-	> 08M30, M chiude il file
-
+ *		Usage: m00conv [OPTION]... INPUT OUTPUT
+ *		Convert INPUT and save it to OUTPUT
+ *
+ *		Mandatory arguments to long options are mandatory for short options too.
+ *			-h, --help	display this help and exit
  */
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
 
 // http://stackoverflow.com/a/1644898/151377
-#define DEBUG 1
+#define DEBUG 0
 #define debug_print(fmt, ...) \
 	do { \
 		if (DEBUG) { \
@@ -74,7 +48,7 @@ int main(int argc, char* argv[])
 	in_file = fopen(in_file_name, "r"); // Open input file from command line
 	if(in_file == NULL)
 	{
-		fprintf(stderr, "Error opening file '%s'\n", in_file_name);
+		fprintf(stderr, "m00conv: error opening file '%s'\n", in_file_name);
 		terminate(1);
 	}
 	else
@@ -85,7 +59,7 @@ int main(int argc, char* argv[])
 	out_file = fopen(out_file_name, "w");
 	if(out_file == NULL)
 	{
-		fprintf(stderr, "Error opening file '%s'\n", out_file_name);
+		fprintf(stderr, "m00conv: error opening file '%s'\n", out_file_name);
 		terminate(1);
 	}
 	else
@@ -99,7 +73,7 @@ int main(int argc, char* argv[])
 	// Closing files
 	if(fclose(in_file) != 0)
 	{
-		fprintf(stderr, "Error closing file '%s'\n", in_file_name);
+		fprintf(stderr, "m00conv: error closing file '%s'\n", in_file_name);
 		terminate(1);
 	} 
 	else
@@ -109,7 +83,7 @@ int main(int argc, char* argv[])
 
 	if(fclose(out_file) != 0)
 	{
-		fprintf(stderr, "Error closing file '%s'\n", out_file_name);
+		fprintf(stderr, "m00conv: error closing file '%s'\n", out_file_name);
 		terminate(1);
 	} 
 	else
@@ -117,7 +91,7 @@ int main(int argc, char* argv[])
 		debug_print("File '%s' closed correctly\n", out_file_name);
 	}
 
-	fprintf(stdout, "%s has been written correctly!\n", out_file_name);
+	fprintf(stdout, "'%s' has been converted correctly and saved to '%s'\n", in_file_name, out_file_name);
 
 	terminate(0);
 }
@@ -128,12 +102,11 @@ int main(int argc, char* argv[])
 void show_help()
 {
 	printf(
-		"m00conv - M00 file converter\n"
+		"Usage: m00conv [OPTION]... INPUT OUTPUT\n"
+		"Convert INPUT and save it to OUTPUT\n"
 		"\n"
-		"Usage: m00conv [input_file] [output_file]\n"
-		"\n"
-		"input_file: name of the file to be read\n"
-		"output_file: name of the file to be written\n"
+		"Mandatory arguments to long options are mandatory for short options too.\n"
+		"  -h, --help\tdisplay this help and exit\n"
 		);
 	terminate(0);
 }
@@ -162,15 +135,15 @@ void terminate(int code)
  */
 void check_args(int argc, char* argv[])
 {
-	bool show_help = false;
+	bool help_request = false;
 
 	for(int i = 0; i < argc; i++)
 	{
-		if(strcmp(argv[i], "--help") || strcmp(argv[i], "-h"))
-			show_help = true;
+		if(strcmp(argv[i], "--help") == 0 || strcmp(argv[i], "-h") == 0)
+			help_request = true;
 	}
 
-	if(show_help)
+	if(help_request)
 	{
 		debug_print("Not enough arguments (%d), showing help and quitting\n", argc);
 		show_help();
@@ -180,11 +153,11 @@ void check_args(int argc, char* argv[])
 		if(argc != 3)
 		{
 			if(argc == 1)
-				fprintf(stderr, "m00conv - missing input_file operand\n");
+				fprintf(stderr, "m00conv: missing INPUT operand\n");
 			else if(argc == 2)
-				fprintf(stderr, "m00conv - missing output_file operand\n");
+				fprintf(stderr, "m00conv: missing OUTPUT operand\n");
 			else
-				fprintf(stderr, "m00conv - too many arguments specified\n");
+				fprintf(stderr, "m00conv: too many arguments specified\n");
 
 			fprintf(stderr, "Try 'm00conv --help' for more information\n");
 			terminate(0);
