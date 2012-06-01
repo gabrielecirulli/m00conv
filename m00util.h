@@ -2,24 +2,14 @@
  *		m00util.h - Utility libraries for m00conv
  */
 
-// Debug printing facility
-// http://stackoverflow.com/a/1644898/151377
-#define DEBUG 0
-#define debug_print(fmt, ...) \
-	do { \
-		if (DEBUG) { \
-			fprintf(stderr, "(DEBUG) "); \
-			fprintf(stderr, fmt, __VA_ARGS__); \
-		} \
-	} while(0)
 
-#define debug_print_s(fmt) \
-	do { \
-		if (DEBUG) { \
-			fprintf(stderr, "(DEBUG) "); \
-			fprintf(stderr, fmt); \
-		} \
-	} while(0)
+// Compile with -DEBUG to expand debug macros
+#ifdef EBUG
+	#define debug_print(...) fprintf(stderr, "(DEBUG) " __VA_ARGS__)
+#else
+	#define debug_print(...)
+#endif
+
 
 // Other functions
 void show_help();

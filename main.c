@@ -20,7 +20,7 @@
  */
 int main(int argc, char* argv[])
 {
-	debug_print_s("m00conv: running in DEBUG mode (debug printing enabled)\n");
+	debug_print("m00conv: running in DEBUG mode (debug printing enabled)\n");
 
 	// Run args check (terminates program if args don't meet requirements)
 	check_args(argc, argv);			

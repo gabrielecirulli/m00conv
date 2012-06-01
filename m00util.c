@@ -33,7 +33,7 @@ void show_help()
 void terminate(int code)
 {
 	if(code == 0)
-		debug_print_s("Program terminated successfully (0)\n");
+		debug_print("Program terminated successfully (0)\n");
 	else
 		debug_print("Program terminated with error (%d)\n", code);
 	exit(code);
@@ -62,7 +62,7 @@ void check_args(int argc, char* argv[])
 
 	if(help_request)
 	{
-		debug_print_s("Showing help and quitting\n");
+		debug_print("Showing help and quitting\n");
 		show_help();
 	}
 	else
@@ -80,6 +80,5 @@ void check_args(int argc, char* argv[])
 			terminate(0);
 		}
 	}
-
 	
 }
