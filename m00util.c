@@ -1,11 +1,13 @@
 /*
- *		m00util.c - Utility libraries for m00conv
+ *		m00util.c - Utility functions for m00conv
  */
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include <ctype.h>
+#include <sys/stat.h>
 
 #include "m00util.h"
 
@@ -46,39 +48,98 @@ void terminate(int code)
  *			int argc - The number of arguments
  *			char* argv[] - The arguments vector
  */
-void check_args(int argc, char* argv[])
+void check_args(int argc, char* argv[], struct m00data* data)
 {
-	bool help_request = false;
+	/*
+	 * We're ignoring any possible race conditions that might arise
+	 * from checking for file existance and file creation in a non-atomical way
+	 * because of the low-security purposes of this program.
+	 */
 
+	data->in_file_name = NULL;
+	data->out_file_name = NULL;
+
+	// Check for terminating arguments
 	int i;
 	for(i = 0; i < argc; i++)
 	{
+		debug_print("Checking argument %d: %s\n", i, argv[i]);
 		if(strcmp(argv[i], "--help") == 0 || strcmp(argv[i], "-h") == 0) 
 		{
 			debug_print("argv[%d] = '%s', help_request\n", i, argv[i]);
-			help_request = true;
+			
+			debug_print("Showing help and quitting\n");
+			show_help();
 		}
 	}
 
-	if(help_request)
+	// Check argument count
+	if(argc < 3)
 	{
-		debug_print("Showing help and quitting\n");
-		show_help();
+		fprintf(stderr, "m00conv: too few arguments specified\n");
+		fprintf(stderr, "Try 'm00conv --help' for more information\n");
+		terminate(0);
+	}
+		
+	// Check for input file existence
+	if(file_exists(argv[argc - 2]))
+	{
+		debug_print("File '%s' found.\n", argv[argc - 2]);
+		data->in_file_name = argv[argc - 2];		
 	}
 	else
 	{
-		if(argc != 3)
-		{
-			if(argc == 1)
-				fprintf(stderr, "m00conv: missing INPUT operand\n");
-			else if(argc == 2)
-				fprintf(stderr, "m00conv: missing OUTPUT operand\n");
-			else
-				fprintf(stderr, "m00conv: too many arguments specified\n");
-
-			fprintf(stderr, "Try 'm00conv --help' for more information\n");
-			terminate(0);
-		}
+		fprintf(stderr, "m00conv: cannot stat '%s': No such file or directory\n", argv[argc - 2]);
+		terminate(1);
 	}
 	
+	// Check output file
+	if(!file_exists(argv[argc - 1])) // If the file doesn't exist, everything's OK
+	{
+		debug_print("File '%s' not found, OK.\n", argv[argc - 1]);
+		data->out_file_name = argv[argc - 1];
+	}
+	else
+	{
+		fprintf(stdout, "File '%s' already exists; overwrite? y/n: ", argv[argc - 1]);
+		char choice = tolower(getchar());
+		if(choice == 'y')
+		{
+			data->out_file_name = argv[argc - 1];
+		}
+		else
+		{
+			fprintf(stderr, "m00conv: file '%s' already exists; terminating\n", argv[argc - 1]);
+			terminate(1);
+		}
+	}
+
+	// Final checks
+	if(!data->in_file_name || !data->out_file_name)
+	{
+		if(data->in_file_name == NULL)
+			fprintf(stderr, "m00conv: missing INPUT operand\n");
+
+		if(data->out_file_name == NULL)
+			fprintf(stderr, "m00conv: missing OUTPUT operand\n");
+
+		fprintf(stderr, "Try 'm00conv --help' for more information\n");
+		terminate(0);
+	}
+
+	// Everything OK, execution can continue	
+}
+
+/*
+ *		check_file - Checks the specified file
+ *		
+ *		Arguments:
+ *			int argc - The number of arguments
+ *			char* argv[] - The arguments vector
+ */
+int file_exists(char* file_name)
+{
+	struct stat buffer;
+	// If the buffer remains empty, the file doesn't exist
+	return (stat(file_name, &buffer) == 0);
 }

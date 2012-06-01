@@ -15,6 +15,8 @@
 
 #include "m00util.h"
 
+
+
 /*
  *		int main - Runs the program
  */
@@ -22,14 +24,21 @@ int main(int argc, char* argv[])
 {
 	debug_print("m00conv: running in DEBUG mode (debug printing enabled)\n");
 
-	// Run args check (terminates program if args don't meet requirements)
-	check_args(argc, argv);			
+	// Create a structure for program data
+	struct m00data data;
 
+	// Run args check (terminates program if args don't meet requirements)
+	check_args(argc, argv, &data);			
+
+	/*
 	// Opening files
 	char* in_file_name = argv[1]; // Name of input file
 	char* out_file_name = argv[2]; // Name of output file
+	*/
 
-	FILE* in_file; // The file which has to be read
+	//debug_print("Check file '%s': %d\n", in_file_name, file_exists(in_file_name));
+
+	/*FILE* in_file; // The file which has to be read
 	FILE* out_file; // The file onto which the output will be written
 
 	in_file = fopen(in_file_name, "r"); // Open input file from command line
@@ -76,9 +85,12 @@ int main(int argc, char* argv[])
 	else
 	{
 		debug_print("File '%s' closed correctly\n", out_file_name);
-	}
+	}*/
 
-	fprintf(stdout, "'%s' has been converted correctly and saved to '%s'\n", in_file_name, out_file_name);
+
+
+	fprintf(stdout, "'%s' has been converted correctly and saved to '%s'\n",
+		data.in_file_name, data.out_file_name);
 
 	return 0;
 }
