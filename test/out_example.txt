@@ -1,0 +1,51 @@
+%!* 
+    N` G`   X`     Z`   F` H 
+    00 21                    
+    01 90                      
+    02 92  0000   0000
+    03 00  4000    500
+    04 00  4000    500              
+    05 01  3600    500
+    06 01  3600  -3640 
+    07 01  3800  -3540
+     
+    08M30                    
+   M 
+
+N=3
+G=3
+X=6
+Z=7
+uno spazio
+F=3
+uno spazio
+H=3
+
+File input
+    > Rendere compatibile
+    > Eliminare commenti
+
+    > ignorare righe con g diverso da 0,1,2,3
+
+    >
+ File output
+    > prima riga %!*
+    > campi n, g, x, z, f, h
+    > larghezza campi sotto
+
+    > fino a 02 rimangono uguali
+
+    > Righe numerate senso crescente
+
+    > Numero dopo g preso in N
+    > Numero X * 100
+    > Numeo Z * 100
+
+    > Dove non compare G si copia la G precedente
+    > Vengono ignorati se non hanno una g e una x o una z
+
+    > Dove non ci sono nuove X o Z rimane quella sopra
+
+    > Se non c'è una nuova G si ricopia la G precedente
+
+    > 08M30, M chiude il file
