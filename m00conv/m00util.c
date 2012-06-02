@@ -140,10 +140,38 @@ void check_args(int argc, char* argv[], struct m00data* data)
  *		Arguments:
  *			int argc - The number of arguments
  *			char* argv[] - The arguments vector
+ *		
+ *		Returns:
+ *			1 if file exists, 0 otherwise
  */
 int file_exists(char* file_name)
 {
 	struct stat buffer;
 	/* If the buffer remains empty, the file doesn't exist */
 	return (stat(file_name, &buffer) == 0);
+}
+
+/*
+ *		strip_spaces - Strips any leading or trailing spaces from the string
+ *		
+ *		Arguments:
+ *			char* string - A pointer to the string to modify
+ *		
+ *		Returns:
+ *			A pointer to the beginning of the modified souce string
+ */
+char* strip_spaces(char* string)
+{
+	while(isspace(*string)) string--;
+
+	if(*string == 0) return string;
+
+	char* end; /* Pointer to the last character of the new string */
+	end = string + strlen(string) - 1;
+
+	while(end > string && isspace(*end)) end--;
+
+	*(end + 1) = 0;
+
+	return string;
 }

@@ -1,5 +1,5 @@
 /*
- *		m00conv.c - Convert M00 files to a format for old PLC machines
+ *		m00conv - Convert M00 files to a format for old PLC machines
  *
  *		Usage: m00conv [OPTION]... INPUT OUTPUT
  *		Convert INPUT and save it to OUTPUT

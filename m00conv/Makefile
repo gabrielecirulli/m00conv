@@ -9,7 +9,7 @@ m00conv: main.o m00util.o m00convert.o
 
 m00conv_d: PROGNAME = m00conv_d
 
-m00conv_d: CFLAGS += -DEBUG
+m00conv_d: CFLAGS += -g -DEBUG
 
 m00conv_d: clean m00conv
 

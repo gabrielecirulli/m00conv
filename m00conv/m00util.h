@@ -26,3 +26,5 @@
 /* Other functions */
 void terminate(int code);
 void check_args(int argc, char* argv[], struct m00data* data);
+
+char* strip_spaces(char* string);
