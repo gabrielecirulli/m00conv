@@ -2,22 +2,27 @@
  *		m00util.h - Utility functions for m00conv
  */
 
-// Compile with -DEBUG to expand debug macros
+#include <stdio.h>
+
+/* Compile with -DEBUG to expand debug macros */
 #ifdef EBUG
-	#define debug_print(...) fprintf(stderr, "(DEBUG) " __VA_ARGS__)
+	#define debug_print(...) fprintf(stderr, "\e[1;31m(DEBUG)\e[0m " __VA_ARGS__)
 #else
 	#define debug_print(...)
 #endif
 
-// Structures
-struct m00data
-{
-	char* in_file_name;
-	char* out_file_name;
-};
+/* Define m00data structure */
+#ifndef M00DATA_DEFINED
+ 	#define M00DATA_DEFINED
+	struct m00data
+	{
+		char* in_file_name;
+		char* out_file_name;
+		FILE* in_file;
+		FILE* out_file;
+	};
+#endif
 
-// Other functions
-void show_help();
+/* Other functions */
 void terminate(int code);
 void check_args(int argc, char* argv[], struct m00data* data);
-int file_exists(char* file_name);

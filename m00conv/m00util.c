@@ -11,6 +11,10 @@
 
 #include "m00util.h"
 
+/* 'private' functions */
+void show_help();
+int file_exists(char* file_name);
+
 /* 
  *		void show_help - Show usage information for the program
  */
@@ -59,7 +63,7 @@ void check_args(int argc, char* argv[], struct m00data* data)
 	data->in_file_name = NULL;
 	data->out_file_name = NULL;
 
-	// Check for terminating arguments
+	/* Check for terminating arguments */
 	int i;
 	for(i = 0; i < argc; i++)
 	{
@@ -73,7 +77,7 @@ void check_args(int argc, char* argv[], struct m00data* data)
 		}
 	}
 
-	// Check argument count
+	/* Check argument count */
 	if(argc < 3)
 	{
 		fprintf(stderr, "m00conv: too few arguments specified\n");
@@ -81,7 +85,7 @@ void check_args(int argc, char* argv[], struct m00data* data)
 		terminate(0);
 	}
 		
-	// Check for input file existence
+	/* Check for input file existence */
 	if(file_exists(argv[argc - 2]))
 	{
 		debug_print("File '%s' found.\n", argv[argc - 2]);
@@ -93,8 +97,8 @@ void check_args(int argc, char* argv[], struct m00data* data)
 		terminate(1);
 	}
 	
-	// Check output file
-	if(!file_exists(argv[argc - 1])) // If the file doesn't exist, everything's OK
+	/* Check output file */
+	if(!file_exists(argv[argc - 1])) /* If the file doesn't exist, everything's OK */
 	{
 		debug_print("File '%s' not found, OK.\n", argv[argc - 1]);
 		data->out_file_name = argv[argc - 1];
@@ -114,7 +118,7 @@ void check_args(int argc, char* argv[], struct m00data* data)
 		}
 	}
 
-	// Final checks
+	/* Final checks */
 	if(!data->in_file_name || !data->out_file_name)
 	{
 		if(data->in_file_name == NULL)
@@ -127,7 +131,7 @@ void check_args(int argc, char* argv[], struct m00data* data)
 		terminate(0);
 	}
 
-	// Everything OK, execution can continue	
+	/* Everything OK, execution can continue */
 }
 
 /*
@@ -140,6 +144,6 @@ void check_args(int argc, char* argv[], struct m00data* data)
 int file_exists(char* file_name)
 {
 	struct stat buffer;
-	// If the buffer remains empty, the file doesn't exist
+	/* If the buffer remains empty, the file doesn't exist */
 	return (stat(file_name, &buffer) == 0);
 }

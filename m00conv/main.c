@@ -14,8 +14,7 @@
 #include <stdbool.h>
 
 #include "m00util.h"
-
-
+#include "m00convert.h"
 
 /*
  *		int main - Runs the program
@@ -24,72 +23,17 @@ int main(int argc, char* argv[])
 {
 	debug_print("m00conv: running in DEBUG mode (debug printing enabled)\n");
 
-	// Create a structure for program data
+	/* Create a structure for program data */
 	struct m00data data;
 
-	// Run args check (terminates program if args don't meet requirements)
-	check_args(argc, argv, &data);			
+	/* Run args check (terminates program if args don't meet requirements) */
+	check_args(argc, argv, &data);		
 
-	/*
-	// Opening files
-	char* in_file_name = argv[1]; // Name of input file
-	char* out_file_name = argv[2]; // Name of output file
-	*/
+	/* Run conversion */
+	do_conversion(&data);
 
-	//debug_print("Check file '%s': %d\n", in_file_name, file_exists(in_file_name));
-
-	/*FILE* in_file; // The file which has to be read
-	FILE* out_file; // The file onto which the output will be written
-
-	in_file = fopen(in_file_name, "r"); // Open input file from command line
-	if(in_file == NULL)
-	{
-		fprintf(stderr, "m00conv: error opening file '%s'\n", in_file_name);
-		terminate(1);
-	}
-	else
-	{
-		debug_print("File '%s' opened correctly\n", in_file_name);
-	}
-
-	out_file = fopen(out_file_name, "w");
-	if(out_file == NULL)
-	{
-		fprintf(stderr, "m00conv: error opening file '%s'\n", out_file_name);
-		terminate(1);
-	}
-	else
-	{
-		debug_print("File '%s' opened correctly\n", out_file_name);
-	}
-
-
-
-
-	// Closing files
-	if(fclose(in_file) != 0)
-	{
-		fprintf(stderr, "m00conv: error closing file '%s'\n", in_file_name);
-		terminate(1);
-	} 
-	else
-	{
-		debug_print("File '%s' closed correctly\n", in_file_name);
-	}
-
-	if(fclose(out_file) != 0)
-	{
-		fprintf(stderr, "m00conv: error closing file '%s'\n", out_file_name);
-		terminate(1);
-	} 
-	else
-	{
-		debug_print("File '%s' closed correctly\n", out_file_name);
-	}*/
-
-
-
-	fprintf(stdout, "'%s' has been converted correctly and saved to '%s'\n",
+	/* Finished */
+	fprintf(stdout, "m00conv: '%s' has been converted correctly and saved as '%s'\n",
 		data.in_file_name, data.out_file_name);
 
 	return 0;

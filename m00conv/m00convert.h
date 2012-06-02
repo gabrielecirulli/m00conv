@@ -2,4 +2,6 @@
  *		m00convert.h - Conversion functions for m00conv
  */
 
-void convert_files(char* input_file, char* output_file);
+#include "m00util.h"
+
+void do_conversion(struct m00data* data);
