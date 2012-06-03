@@ -30,6 +30,6 @@ void check_args(int argc, char* argv[], struct m00data* data);
 
 char* strip_spaces(char* line);
 char* strip_comments(char* line);
-bool is_comment(char* line);
+bool is_blank(char* line);
 
 #endif

@@ -78,13 +78,13 @@ static void convert_files(m00data_t* data)
 {
 	debug_print("Starting file conversion\n");
 	
-	char line_buffer[256];
+	char line[256];
 	
 	debug_print("Beginning to read the file\n");
-	while(fgets(line_buffer, 255, data->in_file) != NULL)
+	while(fgets(line, 255, data->in_file) != NULL)
 	{
-		char* stripped = strip_spaces(strip_comments(line_buffer));
-		if(is_comment(stripped))
+		char* stripped = strip_spaces(strip_comments(line));
+		if(is_blank(stripped))
 			continue; /* Skip unuseful lines */
 
 		debug_print("Current line: \"%s\"\n", stripped);
