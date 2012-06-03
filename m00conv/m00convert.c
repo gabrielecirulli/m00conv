@@ -77,7 +77,7 @@ static void convert_files(struct m00data* data)
 {
 	debug_print("Starting file conversion\n");
 	
-	char line_buffer[255];
+	char line_buffer[256];
 	
 	debug_print("Beginning to read the file\n");
 	while(fgets(line_buffer, 255, data->in_file) != NULL)
