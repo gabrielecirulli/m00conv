@@ -64,8 +64,7 @@ void check_args(int argc, char* argv[], struct m00data* data)
 	data->out_file_name = NULL;
 
 	/* Check for terminating arguments */
-	int i;
-	for(i = 0; i < argc; i++)
+	for(int i = 0; i < argc; i++)
 	{
 		debug_print("Checking argument %d: %s\n", i, argv[i]);
 		if(strcmp(argv[i], "--help") == 0 || strcmp(argv[i], "-h") == 0) 
@@ -162,7 +161,7 @@ static int file_exists(char* file_name)
  */
 char* strip_spaces(char* string)
 {
-	while(isspace(*string)) string--;
+	while(isspace(*string)) string++;
 
 	if(*string == 0) return string;
 

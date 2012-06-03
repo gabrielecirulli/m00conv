@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall #-Wextra -pedantic -Werror
+CFLAGS=-std=c99 -Wall #-Wextra -pedantic -Werror
 PROGNAME=m00conv
 
 .PHONY: clean
