@@ -1,3 +1,6 @@
+#ifndef M00UTIL_H
+#define M00UTIL_H
+
 /*
  *		m00util.h - Utility functions for m00conv
  */
@@ -28,3 +31,5 @@ void terminate(int code);
 void check_args(int argc, char* argv[], struct m00data* data);
 
 char* strip_spaces(char* string);
+
+#endif
