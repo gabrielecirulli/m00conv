@@ -9,11 +9,11 @@
 #include "m00convert.h"
 
 /* 'private' functions */
-void open_files(struct m00data* data);
-void close_files(struct m00data* data);
-void convert_files(struct m00data* data);
+static void open_files(m00data_t* data);
+static void close_files(m00data_t* data);
+static void convert_files(m00data_t* data);
 
-void do_conversion(struct m00data* data)
+void do_conversion(m00data_t* data)
 {
 	debug_print("Beginning file conversion.\n");
 	open_files(data);
@@ -21,7 +21,7 @@ void do_conversion(struct m00data* data)
 	close_files(data);
 }
 
-void open_files(struct m00data* data)
+static void open_files(m00data_t* data)
 {
 	debug_print("Opening files %s and %s\n", data->in_file_name, data->out_file_name);
 
@@ -48,7 +48,7 @@ void open_files(struct m00data* data)
 	}
 }
 
-void close_files(struct m00data* data)
+static void close_files(m00data_t* data)
 {
 	debug_print("Closing files %s and %s\n", data->in_file_name, data->out_file_name);
 
@@ -73,27 +73,18 @@ void close_files(struct m00data* data)
 	}
 }
 
-void convert_files(struct m00data* data)
+static void convert_files(m00data_t* data)
 {
 	debug_print("Starting file conversion\n");
-	void* start;
-	char* line_buffer;
-
-	start = calloc(255, sizeof(char));
-	if(start == NULL)
-	{
-		fprintf(stderr, "m00conv: unknown error encountered while converting file\n");
-		terminate(1);
-	}
-	line_buffer = (char*)start;
+	
+	char line_buffer[256];
+	
 	debug_print("Beginning to read the file\n");
 	while(fgets(line_buffer, 255, data->in_file) != NULL)
 	{
-		line_buffer = strip_spaces(line_buffer);
-		debug_print("Current line: \"%s\"\n", line_buffer);
-		line_buffer = (char*)start; /* Reset the pointer */
+		char* stripped = strip_spaces(line_buffer);
+		(void)stripped;
+		debug_print("Current line: \"%s\"\n", stripped);
 	}
 	debug_print("Finished reading the file\n");
-
-	free(start);
 }

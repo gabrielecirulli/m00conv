@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
 	debug_print("m00conv: running in DEBUG mode (debug printing enabled)\n");
 
 	/* Create a structure for program data */
-	struct m00data data;
+	m00data_t data;
 
 	/* Run args check (terminates program if args don't meet requirements) */
 	check_args(argc, argv, &data);		
@@ -33,7 +33,7 @@ int main(int argc, char* argv[])
 	do_conversion(&data);
 
 	/* Finished */
-	fprintf(stdout, "m00conv: '%s' has been converted correctly and saved as '%s'\n",
+	printf("m00conv: '%s' has been converted correctly and saved as '%s'\n",
 		data.in_file_name, data.out_file_name);
 
 	return 0;

@@ -1,3 +1,6 @@
+#ifndef M00UTIL_H
+#define M00UTIL_H
+
 /*
  *		m00util.h - Utility functions for m00conv
  */
@@ -12,19 +15,18 @@
 #endif
 
 /* Define m00data structure */
-#ifndef M00DATA_DEFINED
- 	#define M00DATA_DEFINED
-	struct m00data
-	{
-		char* in_file_name;
-		char* out_file_name;
-		FILE* in_file;
-		FILE* out_file;
-	};
-#endif
+typedef struct m00data
+{
+	char* in_file_name;
+	char* out_file_name;
+	FILE* in_file;
+	FILE* out_file;
+} m00data_t;
 
 /* Other functions */
 void terminate(int code);
 void check_args(int argc, char* argv[], struct m00data* data);
 
 char* strip_spaces(char* string);
+
+#endif
