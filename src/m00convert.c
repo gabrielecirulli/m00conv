@@ -4,6 +4,7 @@
 
 #include <ctype.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include "m00util.h"
 #include "m00convert.h"
@@ -82,8 +83,10 @@ static void convert_files(m00data_t* data)
 	debug_print("Beginning to read the file\n");
 	while(fgets(line_buffer, 255, data->in_file) != NULL)
 	{
-		char* stripped = strip_spaces(line_buffer);
-		(void)stripped;
+		char* stripped = strip_spaces(strip_comments(line_buffer));
+		if(is_comment(stripped))
+			continue; /* Skip unuseful lines */
+
 		debug_print("Current line: \"%s\"\n", stripped);
 	}
 	debug_print("Finished reading the file\n");

@@ -159,18 +159,40 @@ static int file_exists(char* file_name)
  *		Returns:
  *			A pointer to the beginning of the modified souce string
  */
-char* strip_spaces(char* string)
+char* strip_spaces(char* line)
 {
-	while(isspace(*string)) string++;
+	while(isspace(*line)) line++;
 
-	if(*string == 0) return string;
+	if(*line == 0) return line;
 
-	char* end; /* Pointer to the last character of the new string */
-	end = string + strlen(string) - 1;
+	char* end; /* Pointer to the last character of the new line */
+	end = line + strlen(line) - 1;
 
-	while(end > string && isspace(*end)) end--;
+	while(end > line && isspace(*end)) end--;
 
 	*(end + 1) = 0;
 
-	return string;
+	return line;
+}
+
+char* strip_comments(char* line)
+{
+	/* debug_print("Stripping comments from '%s'\n", line); */
+	for(int i = 0; i < strlen(line); i++)
+	{
+		if(line[i] == '(' && line[i+1] == '*')
+		{
+			line[i] = 0;
+			break;
+		}	
+	}
+	/* debug_print("Comments stripped: '%s'\n", line); */
+	return line;
+}
+
+bool is_blank(char* line)
+{
+	if(!strlen(line))
+		return true;
+	return false;
 }

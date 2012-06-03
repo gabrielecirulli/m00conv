@@ -8,7 +8,7 @@ m00conv: src/main.o src/m00util.o src/m00convert.o
 %.o: %.c Makefile inc/*.h
 	$(CC) $(CFLAGS) -o $@ -c $<
 
-debug: CFLAGS+=-DEBUG
+debug: CFLAGS+=-DEBUG -g
 
 debug: m00conv
 

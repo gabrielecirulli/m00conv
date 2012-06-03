@@ -6,6 +6,7 @@
  */
 
 #include <stdio.h>
+#include <stdbool.h>
 
 /* Compile with -DEBUG to expand debug macros */
 #ifdef EBUG
@@ -27,6 +28,8 @@ typedef struct m00data
 void terminate(int code);
 void check_args(int argc, char* argv[], struct m00data* data);
 
-char* strip_spaces(char* string);
+char* strip_spaces(char* line);
+char* strip_comments(char* line);
+bool is_comment(char* line);
 
 #endif
