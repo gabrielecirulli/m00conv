@@ -52,7 +52,7 @@ void terminate(int code)
  *			int argc - The number of arguments
  *			char* argv[] - The arguments vector
  */
-void check_args(int argc, char* argv[], struct m00data* data)
+void check_args(int argc, char* argv[], m00data_t* data)
 {
 	/*
 	 * We're ignoring any possible race conditions that might arise

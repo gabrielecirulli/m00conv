@@ -15,13 +15,13 @@
 #endif
 
 /* Define m00data structure */
-struct m00data
+typedef struct m00data
 {
 	char* in_file_name;
 	char* out_file_name;
 	FILE* in_file;
 	FILE* out_file;
-};
+} m00data_t;
 
 /* Other functions */
 void terminate(int code);

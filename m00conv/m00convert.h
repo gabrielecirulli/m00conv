@@ -7,6 +7,6 @@
 
 #include "m00util.h"
 
-void do_conversion(struct m00data* data);
+void do_conversion(m00data_t* data);
 
 #endif
