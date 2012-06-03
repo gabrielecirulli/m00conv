@@ -9,9 +9,9 @@
 #include "m00convert.h"
 
 /* 'private' functions */
-void open_files(struct m00data* data);
-void close_files(struct m00data* data);
-void convert_files(struct m00data* data);
+static void open_files(struct m00data* data);
+static void close_files(struct m00data* data);
+static void convert_files(struct m00data* data);
 
 void do_conversion(struct m00data* data)
 {
@@ -21,7 +21,7 @@ void do_conversion(struct m00data* data)
 	close_files(data);
 }
 
-void open_files(struct m00data* data)
+static void open_files(struct m00data* data)
 {
 	debug_print("Opening files %s and %s\n", data->in_file_name, data->out_file_name);
 
@@ -48,7 +48,7 @@ void open_files(struct m00data* data)
 	}
 }
 
-void close_files(struct m00data* data)
+static void close_files(struct m00data* data)
 {
 	debug_print("Closing files %s and %s\n", data->in_file_name, data->out_file_name);
 
@@ -73,7 +73,7 @@ void close_files(struct m00data* data)
 	}
 }
 
-void convert_files(struct m00data* data)
+static void convert_files(struct m00data* data)
 {
 	debug_print("Starting file conversion\n");
 	void* start;

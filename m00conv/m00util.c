@@ -12,13 +12,13 @@
 #include "m00util.h"
 
 /* 'private' functions */
-void show_help();
-int file_exists(char* file_name);
+static void show_help();
+static int file_exists(char* file_name);
 
 /* 
  *		void show_help - Show usage information for the program
  */
-void show_help()
+static void show_help()
 {
 	printf(
 		"Usage: m00conv [OPTION]... INPUT OUTPUT\n"
@@ -144,7 +144,7 @@ void check_args(int argc, char* argv[], struct m00data* data)
  *		Returns:
  *			1 if file exists, 0 otherwise
  */
-int file_exists(char* file_name)
+static int file_exists(char* file_name)
 {
 	struct stat buffer;
 	/* If the buffer remains empty, the file doesn't exist */
