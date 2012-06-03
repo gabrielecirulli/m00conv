@@ -1,19 +1,9 @@
-.PHONY: all bin/m00conv debug clean bin/m00conv_debug bin/clean copydebug
+CFLAGS=-std=c99 -Wall -iquote inc
 
-all: m00conv/m00conv
+.PHONY: clean
 
-debug: clean m00conv/m00conv_d copydebug
+m00conv: src/main.o src/m00util.o src/m00convert.o
+	$(CC) $(CFLAGS) -o $@ $^
 
-clean: m00conv/clean
-
-m00conv/m00conv:
-	$(MAKE) -C m00conv m00conv
-
-m00conv/m00conv_d:
-	$(MAKE) -C m00conv m00conv_d
-
-m00conv/clean:
-	$(MAKE) -C m00conv clean
-
-copydebug:
-	cp m00conv/m00conv_d test
+clean:
+	rm -f src/*.o m00conv
