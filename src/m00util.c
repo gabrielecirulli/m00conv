@@ -12,13 +12,13 @@
 #include "m00util.h"
 
 /* 'private' functions */
-void show_help();
-int file_exists(char* file_name);
+static void show_help();
+static int file_exists(char* file_name);
 
 /* 
  *		void show_help - Show usage information for the program
  */
-void show_help()
+static void show_help()
 {
 	printf(
 		"Usage: m00conv [OPTION]... INPUT OUTPUT\n"
@@ -52,7 +52,7 @@ void terminate(int code)
  *			int argc - The number of arguments
  *			char* argv[] - The arguments vector
  */
-void check_args(int argc, char* argv[], struct m00data* data)
+void check_args(int argc, char* argv[], m00data_t* data)
 {
 	/*
 	 * We're ignoring any possible race conditions that might arise
@@ -64,8 +64,7 @@ void check_args(int argc, char* argv[], struct m00data* data)
 	data->out_file_name = NULL;
 
 	/* Check for terminating arguments */
-	int i;
-	for(i = 0; i < argc; i++)
+	for(int i = 0; i < argc; i++)
 	{
 		debug_print("Checking argument %d: %s\n", i, argv[i]);
 		if(strcmp(argv[i], "--help") == 0 || strcmp(argv[i], "-h") == 0) 
@@ -105,7 +104,7 @@ void check_args(int argc, char* argv[], struct m00data* data)
 	}
 	else
 	{
-		fprintf(stdout, "File '%s' already exists; overwrite? y/n: ", argv[argc - 1]);
+		printf("File '%s' already exists; overwrite? y/n: ", argv[argc - 1]);
 		char choice = tolower(getchar());
 		if(choice == 'y')
 		{
@@ -144,7 +143,7 @@ void check_args(int argc, char* argv[], struct m00data* data)
  *		Returns:
  *			1 if file exists, 0 otherwise
  */
-int file_exists(char* file_name)
+static int file_exists(char* file_name)
 {
 	struct stat buffer;
 	/* If the buffer remains empty, the file doesn't exist */
@@ -162,7 +161,7 @@ int file_exists(char* file_name)
  */
 char* strip_spaces(char* string)
 {
-	while(isspace(*string)) string--;
+	while(isspace(*string)) string++;
 
 	if(*string == 0) return string;
 
