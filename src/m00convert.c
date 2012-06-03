@@ -101,6 +101,8 @@ static void convert_files(m00data_t* data)
 	char line[256];
 	unsigned long line_a = 0, line_c = 0; /* line_a: count of all lines; line_c: converted lines */
 	int g = 0, x = 0, z = 0;
+
+	char final_output[256]; /* String that contains the converted output */
 	
 	debug_print("Beginning to read the file\n");
 	while(fgets(line, 255, data->in_file) != NULL)
@@ -113,12 +115,21 @@ static void convert_files(m00data_t* data)
 
 		line_c++;
 
-		debug_print("L%lu A%lu (-%lu): '%s'\n"
-			"\tg=%d  x=%d  z=%d\n\n",
-			line_a, line_c, line_a-line_c, line,
-			g, x, z);
 
-		/*fputs(sprintf("    %02d ", ))*/
+
+		if(sprintf(final_output, "    %02d %02d % 05d  % 05d\n", (int)line_c+2, g, x, z) < 0)
+		{
+			fprintf(stderr, "m00conv: an unknown error occurred while writing the file\n");
+			terminate(1);
+		}
+		fputs(final_output, data->out_file);
+
+		debug_print("L%lu A%lu (-%lu): '%s'\n"
+			"\tg=%d  x=%d  z=%d\n"
+			"\t=%s",
+			line_a, line_c, line_a-line_c, line,
+			g, x, z,
+			final_output);
 	}
 	debug_print("Finished reading the file\n");
 }
