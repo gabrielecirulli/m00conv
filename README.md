@@ -4,7 +4,7 @@ A simple translator for my school's old PLC-based mechanical machines which don'
 Done for a school assignment.
 
 ## Example
-Source file:
+*Source file*:
 ```
 (* WinCAM - EMCO [c] 1995-2001,  Programma NCDIN 66025 T       *)
 
@@ -61,12 +61,12 @@ N0490 G1 X40.
 N0590 M30
 ```
 
-Command:
+*Command*:
 ```
 m00conv source.M00 out.txt
 ```
 
-Output:
+*Output*:
 ```
 %!*
     N` G`   X`     Z`   F` H
@@ -109,3 +109,6 @@ Output:
     36M30
    M
 ```
+
+## License
+The code of this program is licensed under the Simplified BSD license:
