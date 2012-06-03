@@ -83,6 +83,7 @@ static void convert_files(m00data_t* data)
 	while(fgets(line_buffer, 255, data->in_file) != NULL)
 	{
 		char* stripped = strip_spaces(line_buffer);
+		(void)stripped;
 		debug_print("Current line: \"%s\"\n", stripped);
 	}
 	debug_print("Finished reading the file\n");

@@ -1,4 +1,4 @@
-CFLAGS=-std=c99 -Wall -Wall -pedantic -iquote inc
+CFLAGS=-std=c99 -Wall -Wall -pedantic -Werror -iquote inc
 
 .PHONY: clean
 
