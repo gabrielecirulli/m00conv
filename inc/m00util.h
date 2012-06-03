@@ -9,7 +9,7 @@
 
 /* Compile with -DEBUG to expand debug macros */
 #ifdef EBUG
-	#define debug_print(...) fprintf(stderr, "\e[1;31m(DEBUG)\e[0m " __VA_ARGS__)
+	#define debug_print(...) fprintf(stderr, "[DEBUG] " __VA_ARGS__)
 #else
 	#define debug_print(...)
 #endif
