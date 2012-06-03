@@ -11,8 +11,10 @@
 /* Compile with -DEBUG to expand debug macros */
 #ifdef EBUG
 	#define debug_print(...) fprintf(stderr, "[DEBUG] " __VA_ARGS__)
+	#define debug_print_n(...) fprintf(stderr, __VA_ARGS__)
 #else
 	#define debug_print(...)
+	#define debug_print_n(...)
 #endif
 
 /* Define m00data structure */
