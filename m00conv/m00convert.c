@@ -76,24 +76,14 @@ static void close_files(struct m00data* data)
 static void convert_files(struct m00data* data)
 {
 	debug_print("Starting file conversion\n");
-	void* start;
-	char* line_buffer;
-
-	start = calloc(255, sizeof(char));
-	if(start == NULL)
-	{
-		fprintf(stderr, "m00conv: unknown error encountered while converting file\n");
-		terminate(1);
-	}
-	line_buffer = (char*)start;
+	
+	char line_buffer[255];
+	
 	debug_print("Beginning to read the file\n");
 	while(fgets(line_buffer, 255, data->in_file) != NULL)
 	{
-		line_buffer = strip_spaces(line_buffer);
-		debug_print("Current line: \"%s\"\n", line_buffer);
-		line_buffer = (char*)start; /* Reset the pointer */
+		char* stripped = strip_spaces(line_buffer);
+		debug_print("Current line: \"%s\"\n", stripped);
 	}
 	debug_print("Finished reading the file\n");
-
-	free(start);
 }
