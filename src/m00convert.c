@@ -18,9 +18,7 @@ char file_head[] =
 	"    01 90\n"
 	"    02 92  0000   0000\n";
 
-char file_end[] =
-	"    08M30\n"
-	"   M\n";
+char file_end[] = "   M\n";
 
 /* 'private' functions */
 static void open_files(m00data_t* data);
@@ -102,9 +100,9 @@ static void convert_files(m00data_t* data)
 	unsigned long line_a = 0, line_c = 0; /* line_a: count of all lines; line_c: converted lines */
 	int g = 0, x = 0, z = 0;
 
-	char final_output[256]; /* String that contains the converted output */
+	char output_line[256]; /* String that contains the converted output */
 	
-	debug_print("Beginning to read the file\n");
+	debug_print("Beginning to read/write the files\n");
 	while(fgets(line, 255, data->in_file) != NULL)
 	{
 		line_a++; /* Increase line count */
@@ -117,21 +115,30 @@ static void convert_files(m00data_t* data)
 
 
 
-		if(sprintf(final_output, "    %02d %02d % 05d  % 05d\n", (int)line_c+2, g, x, z) < 0)
+		if(sprintf(output_line, "    %02d %02d % 05d  % 05d\n", (int)line_c+2, g, x, z) < 0)
 		{
 			fprintf(stderr, "m00conv: an unknown error occurred while writing the file\n");
 			terminate(1);
 		}
-		fputs(final_output, data->out_file);
+		fputs(output_line, data->out_file);
 
 		debug_print("L%lu A%lu (-%lu): '%s'\n"
 			"\tg=%d  x=%d  z=%d\n"
 			"\t=%s",
 			line_a, line_c, line_a-line_c, line,
 			g, x, z,
-			final_output);
+			output_line);
 	}
-	debug_print("Finished reading the file\n");
+
+	/* 'end of instructions' line */
+	if(sprintf(output_line, "    %02dM30\n", (int)line_c+3) < 0)
+	{
+		fprintf(stderr, "m00conv: an unknown error occurred while writing the file\n");
+		terminate(1);
+	}
+	fputs(output_line, data->out_file);
+
+	debug_print("Finished reading/writing the files\n");
 }
 
 /*
