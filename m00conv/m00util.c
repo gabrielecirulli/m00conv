@@ -104,7 +104,7 @@ void check_args(int argc, char* argv[], struct m00data* data)
 	}
 	else
 	{
-		fprintf(stdout, "File '%s' already exists; overwrite? y/n: ", argv[argc - 1]);
+		printf("File '%s' already exists; overwrite? y/n: ", argv[argc - 1]);
 		char choice = tolower(getchar());
 		if(choice == 'y')
 		{
