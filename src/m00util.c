@@ -151,13 +151,13 @@ static int file_exists(char* file_name)
 }
 
 /*
- *		strip_spaces - Strips any leading or trailing spaces from the string
+ *		strip_spaces - Strips any leading or trailing spaces from the line
  *		
  *		Arguments:
- *			char* string - A pointer to the string to modify
+ *			char* line - A pointer to the line to modify
  *		
  *		Returns:
- *			A pointer to the beginning of the modified souce string
+ *			A pointer to the beginning of the modified souce line
  */
 char* strip_spaces(char* line)
 {

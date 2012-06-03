@@ -10,17 +10,35 @@
 #include "m00util.h"
 #include "m00convert.h"
 
+/* Data for files */
+char file_head[] =
+	"%!*\n"
+	"    N` G`   X`     Z`   F` H\n"
+	"    00 21\n"
+	"    01 90\n"
+	"    02 92  0000   0000\n";
+
+char file_end[] =
+	"    08M30\n"
+	"   M\n";
+
 /* 'private' functions */
 static void open_files(m00data_t* data);
 static void close_files(m00data_t* data);
 static void convert_files(m00data_t* data);
-static void parse_line(char* line, int* g, int* x, int* z);
+static bool parse_line(char* line, int* g, int* x, int* z);
 
 void do_conversion(m00data_t* data)
 {
 	debug_print("Beginning file conversion.\n");
 	open_files(data);
+
+	fputs(file_head, data->out_file);
+
 	convert_files(data);
+
+	fputs(file_end, data->out_file);
+
 	close_files(data);
 }
 
@@ -89,28 +107,41 @@ static void convert_files(m00data_t* data)
 	{
 		line_a++; /* Increase line count */
 		char* stripped = strip_spaces(strip_comments(line));
-		if(is_blank(stripped))
+
+		if(is_blank(stripped) || !parse_line(stripped, &g, &x, &z))
 			continue; /* Skip unuseful lines */
 
 		line_c++;
 
-		parse_line(stripped, &g, &x, &z);
-
 		debug_print("L%lu A%lu (-%lu): '%s'\n"
-			"\tg=%d  x=%d  z=%d\n",
+			"\tg=%d  x=%d  z=%d\n\n",
 			line_a, line_c, line_a-line_c, line,
 			g, x, z);
 
-		/* debug_print("Current line: \"%s\"\n", stripped); */
+		/*fputs(sprintf("    %02d ", ))*/
 	}
 	debug_print("Finished reading the file\n");
 }
 
-static void parse_line(char* line, int* g, int* x, int* z)
+/*
+ *		parse_line - Parses g, x and z values from a line
+ *		
+ *		Arguments:
+ *			char* line - A pointer to the line to be parsed
+ *			int* g - A pointer to a g value to update
+ *			int* x - A pointer to a x value to update
+ *			int* z - A pointer to a z value to update
+ *		
+ *		Returns:
+ *			True if the line is valid (lines with G between 0 and 3 or a X or a Z), false otherwise
+ */
+static bool parse_line(char* line, int* g, int* x, int* z)
 {
 	char* work_line = calloc(strlen(line)+1, 1);
 	strcpy(work_line, line);
 	char* token = strtok(work_line, " ");
+
+	bool found = false;
 
 	int temp_g;
 
@@ -123,21 +154,22 @@ static void parse_line(char* line, int* g, int* x, int* z)
 		{
 			case 'g':
 				temp_g = atoi(token);
-				if(temp_g > 3) break;
-				*g = atoi(token);
-				debug_print("New g: %d\n", *g);
+				if(temp_g > 3)
+					return false; /* Line has a bad G value, ignore it completely */
+				*g = temp_g;
+				found = true;
 				break;
 			case 'x':
-				*x = atoi(token);
-				debug_print("New x: %d\n", *x);
+				*x = (int)(atof(token) * 100);
+				found = true;
 				break;
 			case 'z':
-				debug_print("New z: %d\n", *z);
-				*z = atoi(token);
+				*z = (int)(atof(token) * 100);
+				found = true;
 		}
 
 		token = strtok(NULL, " ");
 	}
-	debug_print_n("\n");
 
+	return found;
 }
