@@ -47,7 +47,7 @@ static void open_files(m00data_t* data)
 	data->in_file = fopen(data->in_file_name, "r"); /* Open input file from command line */
 	if(data->in_file == NULL)
 	{
-		fprintf(stderr, "m00conv: error reading file '%s'", data->in_file_name);
+		fprintf(stderr, "m00conv: errore durante la lettura del file '%s'", data->in_file_name);
 		terminate(1);
 	}
 	else
@@ -58,7 +58,7 @@ static void open_files(m00data_t* data)
 	data->out_file = fopen(data->out_file_name, "w");
 	if(data->out_file == NULL)
 	{
-		fprintf(stderr, "m00conv: error writing file '%s'\n", data->out_file_name);
+		fprintf(stderr, "m00conv: errore durante la scrittura del file '%s'\n", data->out_file_name);
 		terminate(1);
 	}
 	else
@@ -117,7 +117,7 @@ static void convert_files(m00data_t* data)
 
 		if(sprintf(output_line, "    %02d %02d % 05d  % 05d\n", (int)line_c+2, g, x, z) < 0)
 		{
-			fprintf(stderr, "m00conv: an unknown error occurred while writing the file\n");
+			fprintf(stderr, "m00conv: errore sconosciuto incontrato durante la scrittura del file\n");
 			terminate(1);
 		}
 		fputs(output_line, data->out_file);
@@ -133,7 +133,7 @@ static void convert_files(m00data_t* data)
 	/* 'end of instructions' line */
 	if(sprintf(output_line, "    %02dM30\n", (int)line_c+3) < 0)
 	{
-		fprintf(stderr, "m00conv: an unknown error occurred while writing the file\n");
+		fprintf(stderr, "m00conv: errore sconosciuto incontrato durante la scrittura del file\n");
 		terminate(1);
 	}
 	fputs(output_line, data->out_file);

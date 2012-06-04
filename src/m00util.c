@@ -21,11 +21,11 @@ static int file_exists(char* file_name);
 static void show_help()
 {
 	printf(
-		"Usage: m00conv [OPTION]... INPUT OUTPUT\n"
-		"Convert INPUT and save it to OUTPUT\n"
+		"Utilizzo: m00conv [OPTION]... SORGENTE USCITA\n"
+		"Converte il file SORGENTE e lo salva nel file USCITA\n"
 		"\n"
-		"Mandatory arguments to long options are mandatory for short options too.\n"
-		"  -h, --help\tdisplay this help and exit\n"
+		"Altri argomenti da linea di comando:\n"
+		"  -h, --help\tmostra l'aiuto ed esce\n"
 		);
 	terminate(0);
 }
@@ -79,8 +79,8 @@ void check_args(int argc, char* argv[], m00data_t* data)
 	/* Check argument count */
 	if(argc < 3)
 	{
-		fprintf(stderr, "m00conv: too few arguments specified\n");
-		fprintf(stderr, "Try 'm00conv --help' for more information\n");
+		fprintf(stderr, "m00conv: non abbastanza argomenti specificati\n");
+		fprintf(stderr, "Usa 'm00conv --help' per maggiori informazioni\n");
 		terminate(0);
 	}
 		
@@ -92,7 +92,7 @@ void check_args(int argc, char* argv[], m00data_t* data)
 	}
 	else
 	{
-		fprintf(stderr, "m00conv: cannot stat '%s': No such file or directory\n", argv[argc - 2]);
+		fprintf(stderr, "m00conv: impossibile trovare '%s': File o cartella inesistente\n", argv[argc - 2]);
 		terminate(1);
 	}
 	
@@ -104,15 +104,15 @@ void check_args(int argc, char* argv[], m00data_t* data)
 	}
 	else
 	{
-		printf("File '%s' already exists; overwrite? y/n: ", argv[argc - 1]);
+		printf("File '%s' esistente; sovrascrivere? s/n: ", argv[argc - 1]);
 		char choice = tolower(getchar());
-		if(choice == 'y')
+		if(choice == 's')
 		{
 			data->out_file_name = argv[argc - 1];
 		}
 		else
 		{
-			fprintf(stderr, "m00conv: file '%s' already exists; terminating\n", argv[argc - 1]);
+			fprintf(stderr, "m00conv: file '%s' esistente; termino\n", argv[argc - 1]);
 			terminate(1);
 		}
 	}
@@ -121,12 +121,12 @@ void check_args(int argc, char* argv[], m00data_t* data)
 	if(!data->in_file_name || !data->out_file_name)
 	{
 		if(data->in_file_name == NULL)
-			fprintf(stderr, "m00conv: missing INPUT operand\n");
+			fprintf(stderr, "m00conv: operando SORGENTE mancante\n");
 
 		if(data->out_file_name == NULL)
-			fprintf(stderr, "m00conv: missing OUTPUT operand\n");
+			fprintf(stderr, "m00conv: operando USCITA mancante\n");
 
-		fprintf(stderr, "Try 'm00conv --help' for more information\n");
+		fprintf(stderr, "Usa 'm00conv --help' per maggiori informazioni\n");
 		terminate(0);
 	}
 

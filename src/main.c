@@ -33,7 +33,7 @@ int main(int argc, char* argv[])
 	do_conversion(&data);
 
 	/* Finished */
-	printf("m00conv: '%s' has been converted correctly and saved as '%s'\n",
+	printf("m00conv: '%s' convertito correttamente e salvato come '%s'\n",
 		data.in_file_name, data.out_file_name);
 
 	return 0;
