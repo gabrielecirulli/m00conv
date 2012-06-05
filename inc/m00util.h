@@ -28,7 +28,7 @@ typedef struct m00data
 
 /* Other functions */
 void terminate(int code);
-void check_args(int argc, char* argv[], struct m00data* data);
+void check_args(int argc, char* argv[], m00data_t* data);
 
 char* strip_spaces(char* line);
 char* strip_comments(char* line);

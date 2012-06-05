@@ -189,5 +189,6 @@ static bool parse_line(char* line, int* g, int* x, int* z)
 		token = strtok(NULL, " ");
 	}
 
+	free(work_line);
 	return found;
 }
