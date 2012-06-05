@@ -172,8 +172,10 @@ static bool parse_line(char* line, int* g, int* x, int* z)
 		{
 			case 'g':
 				temp_g = atoi(token);
-				if(temp_g > 3)
+				if(temp_g > 3) {
+					free(work_line);
 					return false; /* Line has a bad G value, ignore it completely */
+				}
 				*g = temp_g;
 				found = true;
 				break;
@@ -189,5 +191,6 @@ static bool parse_line(char* line, int* g, int* x, int* z)
 		token = strtok(NULL, " ");
 	}
 
+	free(work_line);
 	return found;
 }
