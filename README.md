@@ -113,7 +113,7 @@ m00conv source.M00 out.txt
 ## License
 The code of this program is licensed under the Simplified BSD license:
 ```
-Copyright (c) 2012, Charlie Somerville
+Copyright (c) 2012, Gabriele Cirulli
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
